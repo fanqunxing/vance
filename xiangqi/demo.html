@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/chess.css">
+	<link rel="stylesheet" href="css/demo.css">
+	<script src="js/Chess.js"></script>
+</head>
+<body>
+<div id="myChess"></div>
+<script>
+var c = new Chess("#myChess");
+c.setColor("red");
+c.setMusic({
+	select:"video/select.wav",
+	eat:"video/eat.wav",
+	go:"video/go.wav",
+	danger:"video/Man_jiangjun.wav"
+});
+c.setBoardNet();
+c.initBoardNet();
+c.click(function(step,board){
+	// 点击数据返回
+	// console.log(step);
+	console.log(board);
+});
+c.lockCheck("no");
+</script>
+</body>
+</html>
+
+

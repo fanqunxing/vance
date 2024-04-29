@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src='jquery-1.12.2.js'></script>
+	<script src="jquery-1.12.2.min.js"></script>
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.contain{
+		margin-top: 100px;
+		position: fixed;
+		left: 50%;
+		margin-left: -368px;
+		width: 788px;
+		height: 94px;
+		background: #665C40;
+		border-radius: 10px;
+		box-shadow: 5px 5px 5px #272822 inset;
+	}
+	ul{
+		position: relative;
+	}
+	ul:after{
+		content: '';
+		display: table;
+		clear: both;
+	}
+	li{
+		position: absolute;
+		list-style: none;
+		margin: 13px;
+		left: 654px;
+		
+	}
+	li:not(:last-of-type){
+		text-align: center;
+		line-height: 70px;
+		width: 70px;
+		height: 70px;
+		border-radius: 50%;
+		color: #fff;
+		font-size: 24px;
+		font-weight: bold;
+		text-shadow: 1px 1px 1px navy;
+	}
+	li:last-of-type{
+		position: absolute;
+		left: 654px;
+		top: 0px;
+	}
+	#box6{
+		background: blue;
+	}
+	input{
+		margin-top: -6px;
+		background:#902D56;
+		border-radius: 8px;
+		height: 80px;
+		width: 100px;
+		font-weight: bold;
+		font-size: 12px;
+		color: #fff;
+		text-shadow: 2px 2px 2px navy;
+		box-shadow: 3px 3px 3px #272822;
+	}
+	@keyframes rotates{
+		0%{
+			transform: rotate(0deg)
+		}
+		100%{
+			transform: rotate(-7200deg)
+		}
+	}
+
+	</style>
+</head>
+<body>
+<div class="contain">
+<ul>
+	<li id="box0"></li>
+	<li id="box1"></li>
+	<li id="box2"></li>
+	<li id="box3"></li>
+	<li id="box4"></li>
+	<li id="box5"></li>
+	<li id="box6"></li>
+	<li id="box7"><input type="button" value="开奖" onclick="init()"></li>
+</ul>
+</div>
+<script>
+// 初始化函数
+function init(){
+	//按钮计时器
+	timer(42);
+	//生产球号并随机打乱
+	var cell_content=[];
+	var color=['#4593F6','#CC3BF6','#F63616','#F8DF0A','#37DE84','#FDF7B2']
+	for(var i=1;i<34;i++){
+		cell_content[i]=i;
+	}
+	cell_content.sort(function(){
+		return Math.random()-0.5;
+	})
+	color.sort(function(){
+		return Math.random()-0.5;
+	})
+	// 初始化小球
+	var li=[];
+	var $li = $('li:not(:eq(7))');
+	for(var i=0;i<7;i++){
+		console.log($li[i])
+		li[i] = $li[i];
+		$li[i].style.left="660px";
+		$li[i].style.animation="";
+		$li[i].style.background=color[i];
+		$li[i].innerHTML=cell_content[i];
+	}
+	move()
+}
+
+function move(){
+	$("#box0").animate({left:"10px"},6000)
+	$("#box0").css({'animation': 'rotates 7s ease .1s'})
+
+	$("#box1").delay(6000).animate({left:"90px"},6000)
+	$("#box1").css({'animation': 'rotates 7s ease 6.1s'})
+
+	$("#box2").delay(12000).animate({left:"170px"},6000)
+	$("#box2").css({'animation': 'rotates 7s ease 12.1s'})
+
+	$("#box3").delay(18000).animate({left:"250px"},6000)
+	$("#box3").css({'animation': 'rotates 7s ease 18.1s'})
+
+	$("#box4").delay(24000).animate({left:"330px"},6000)
+	$("#box4").css({'animation': 'rotates 7s ease 24.1s'})
+
+	$("#box5").delay(30000).animate({left:"410px"},6000)
+	$("#box5").css({'animation': 'rotates 7s ease 30.1s'})
+
+	$("#box6").delay(36000).animate({left:"490px"},6000)
+	$("#box6").css({'animation': 'rotates 7s ease 36.1s'})
+}
+
+// 按钮计时器
+function timer(time) {
+    var btn = $("input");
+    btn.attr("disabled", true);  //按钮禁止点击
+    btn.val(time <= 0 ? "开奖" : ("等待" + (time) + "后开奖"));
+    var hander = setInterval(function() {
+        if (time <= 0) {
+            clearInterval(hander); //清除倒计时
+            btn.val("开奖");
+            btn.attr("disabled", false);
+            return false;
+        }else {
+            btn.val("等待" + (time--) + "后开奖");
+        }
+    }, 1000);
+}
+for(var i in $){
+	//console.log(i)
+}
+console.log($('input'))
+</script>
+</body>
+</html>

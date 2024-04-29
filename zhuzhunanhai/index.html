@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="full-screen" content="true">
+	<title>五子棋</title>
+	<link rel="stylesheet" href="css/index.css">
+</head>
+<body id="body">
+	<canvas id='myCanvas' width="600" height="600">
+		您的浏览器不支持canvas画布！
+	</canvas>
+
+
+
+
+
+
+
+
+
+	<div id="tips">
+		<span id="choice">请选择您的执子颜色</span>
+		<ul>
+			<li id="black">黑</li>
+			<li id="white">白</li>
+			<span class="clr"></span>
+		</ul>
+	</div>
+	<div id="start">开始</div>
+
+	<!-- 菜单栏 -->
+	<div id="cancopy">
+		<div id="menu">
+			<span>菜单</span>
+			<ul>
+				<li id="reStar">重新开始</li>
+				<li id="bjMusic">关闭背景声音</li>
+			</ul>
+		</div>
+	</div>
+	
+
+	<!-- 头像 -->
+	<div id="computerPic"><img src="img/思考.GIF" alt=""></div>
+	<div id="myPic"><img src="img/myCom.gif" alt=""></div>
+
+
+	<!-- 音效 -->
+	<audio id="audio" src="video/开关.wav"></audio>
+	<audio id="audio2" src="video/胜利.wav"></audio>
+	<audio id="audio3" src="video/失败.wav"></audio>
+	<audio id="audio4" src="video/渔舟唱晚.mp3" loop=""></audio>
+	<audio id="audio5" src="video/点击.wav"></audio>
+	<!-- 写在后面等前面的加载完毕后执行 -->
+	<script src='js/index.js'></script>
+</body>
+</html>

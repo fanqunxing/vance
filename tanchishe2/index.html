@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>snake</title>
+	<style>
+		#fenshu{
+			position: fixed;
+			left: 650px;
+			top: 30px;
+		}
+		#kaishi{
+			position: fixed;
+			left: 650px;
+			top:80px;
+		}
+		#difficulty{
+			position: fixed;
+			left: 800px;
+			top:80px;
+		}
+		#up,#down,#left,#right{
+			width: 100px;
+			height: 50px;
+			font-size: 24px;
+			font-weight: bold;
+			text-shadow: 2px 2px 2px navy;
+			box-shadow: 5px 5px 5px #505040;
+		}
+		#up:hover,#down:hover,#left:hover,#right:hover{
+			background:#FFE3EF;
+		}
+		#up{
+			position: fixed;
+			left: 750px;
+			top:130px;
+		}
+		#down{
+			position: fixed;
+			left: 750px;
+			top:190px;
+		}
+		#left{
+			position: fixed;
+			left: 644px;
+			top:190px;
+		}
+		#right{
+			position: fixed;
+			left: 856px;
+			top:190px;
+
+		}
+	</style>
+</head>
+<body>
+<div id="fenshu">
+游戏积分：<input id="defen" type="text" value='0' readonly='readonly'>
+</div>
+<button id="kaishi">开始</button>
+<button id="up">↑</button>
+<button id="down">↓</button>
+<button id="left">←</button>
+<button id="right">→</button>
+<script type="text/javascript">
+//全局对象
+var map=null;//面板
+var food=null;//食物
+var snake=null;//蛇
+var time=null;//定时器
+var score=0;//游戏分数
+window.onload=function(){
+	/*绘制面板*/
+	map=new Maps();
+	map.show();
+	/*食物*/
+	food=new Food();
+	food.foodShow();
+	/*画蛇*/
+	snake=new Snake();
+	snake.showSection();
+	time=setInterval('snake.moveSection()',300);//定时调用蛇移动
+	/*给body添加键盘事件*/
+	document.body.onkeydown=function(event){
+		if (event.keyCode==38) {
+			snake.sectionHeadRun='up';
+		}
+		if(event.keyCode==40){
+			snake.sectionHeadRun='down';
+		}
+		if(event.keyCode==37){
+			snake.sectionHeadRun='left';
+		}
+		if(event.keyCode==39){
+			snake.sectionHeadRun='right';
+		}
+	}
+}
+/*画地图*/
+function Maps(){
+	this.width=600;
+	this.height=600;
+	this.color='#776F56';
+	this.show=function(){
+		var div = document.createElement("div");
+		div.style.width=this.width+"px";
+		div.style.height=this.height+"px";
+		div.style.background=this.color;
+		div.style.position="absolute";
+		div.style.left=0;
+		div.style.top=0;
+		document.body.appendChild(div); 
+	}
+}
+/*画食物*/
+function Food(){
+	this.width=20;
+	this.height=20;
+	this.color='#3AB2FF';
+	this.potato=null;//具体食物防止重复生成
+	this.foodShow=function(){
+		 if(this.potato==undefined){
+		 	this.potato=document.createElement("div");
+		 	this.potato.style.width=this.width-2+"px";
+			this.potato.style.height=this.height-2+"px";
+			this.potato.style.background=this.color;
+			this.potato.style.zIndex='2';
+			this.potato.style.border="solid 1px #fff";
+			this.potato.style.position="absolute";
+		 }
+		this.food_x=Math.floor(Math.random()*30);
+		this.food_y=Math.floor(Math.random()*30);
+		this.potato.style.left=this.food_x*this.width+"px";
+		this.potato.style.top=this.food_y*this.height+"px";
+		document.body.appendChild(this.potato); 
+	}
+}
+/*画蛇*/
+function Snake(){
+	this.range=20;//蛇节的宽高
+	//用数组表示蛇
+	this.section=[[0,1,'yellowgreen',null],[1,1,'yellowgreen',null],[2,1,'pink',null]];
+	this.sectionHeadRun='right';//默认往右边走
+	this.showSection=function(){
+		//遍历数组获得蛇
+		for(var i in this.section){
+			/*判断每个蛇节是否被创建，用数组保存节点*/
+			if(this.section[i][3]==undefined){
+				//创建每个蛇端的div
+				this.section[i][3]=document.createElement("div");
+				this.section[i][3].style.background=this.section[i][2];
+				this.section[i][3].style.width=this.range-2+'px';
+				this.section[i][3].style.height=this.range-2+'px';
+				this.section[i][3].style.position='absolute';
+				this.section[i][3].style.border='solid 1px #F0F0F0';
+			}
+			//已经被创建的蛇节只会进来更改位置，不进入上面if（）
+			this.section[i][3].style.left=this.section[i][0]*this.range+'px';
+			this.section[i][3].style.top=this.section[i][1]*this.range+'px';
+			document.body.appendChild(this.section[i][3]);
+		}
+	}
+	/*移动蛇 先移动蛇身*/
+	this.moveSection=function(){
+		//移动蛇身
+		for(var i=0;i<this.section.length-1;i++){
+			this.section[i][0]=this.section[i+1][0];//x轴向前一步
+			this.section[i][1]=this.section[i+1][1];//y轴向前一步
+		}
+		//移动头部
+		if(this.sectionHeadRun=='right'){
+			this.section[this.section.length-1][0] += 1;
+		}
+		if(this.sectionHeadRun=='left'){
+			this.section[this.section.length-1][0] -= 1;
+		}
+		if(this.sectionHeadRun=='up'){
+			this.section[this.section.length-1][1] -= 1;
+		}
+		if (this.sectionHeadRun=='down'){
+			this.section[this.section.length-1][1] += 1;
+		}
+		/*判断蛇的头部坐标是否超过600px，数组不能超过30；*/
+		if(this.section[this.section.length-1][0]>=30||this.section[this.section.length-1][0]<0||this.section[this.section.length-1][1]>=30||this.section[this.section.length-1][1]<0){
+			clearInterval(time);//停止计时器
+			alert("不能越界，游戏结束");
+			return false;//停止函数执行
+		}
+		/*判断蛇是否吃到自己:判断头部坐标和蛇节是否有相等*/
+		var touX=this.section[this.section.length-1][0];
+		var touY=this.section[this.section.length-1][1];
+		//遍历蛇节
+		 for(var i=0;i<this.section.length-1;i++){
+		 	if(this.section[i][0]==touX&&this.section[i][1]==touY){
+		 		clearInterval(time);//停止计时器
+		 		alert("不能吃自己，游戏结束");
+				return false;//停止函数执行
+		 	}
+		 }
+		/*判断蛇头是否接触食物*/
+		var headX=this.section[this.section.length-1][0];
+		var headY=this.section[this.section.length-1][1];
+		var fx=food.food_x;
+		var fy=food.food_y;
+		if(headX==fx&&headY==fy){
+			//吃，把新蛇节创建出来，新蛇节的坐标就是蛇最后一节的坐标
+			var newsection=[this.section[0][0],this.section[0][1],'yellowgreen',null];
+			this.section.unshift(newsection);//把蛇节用数组方法添加
+			food.foodShow();//重新绘制食物
+			score++;
+			$('defen').value=score;
+			console.log(mytimes)
+		}
+		//蛇节的位置发生变化，重新绘制
+		this.showSection();
+	}
+}
+
+/*开始控制按钮 为手机设置的*/
+$('kaishi').onclick=function(){
+	location.reload();//我只好强制刷新了
+	score=0;
+}
+$('down').onclick=function(){
+	snake.sectionHeadRun='down';
+}
+$('up').onclick=function(){
+	snake.sectionHeadRun='up';
+}
+$('left').onclick=function(){
+	snake.sectionHeadRun='left';
+}
+$('right').onclick=function(){
+	snake.sectionHeadRun='right';
+}
+/*获取Id函数*/
+function $(x){
+	return document.getElementById(x);
+}
+</script>
+</body>
+</html>

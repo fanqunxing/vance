@@ -1,0 +1,19 @@
+#grass{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}
+#fenshu{
+	display: inline-block;
+	position: fixed;
+	font-weight: bold;
+	color: #38CBF4;
+	text-shadow: 1px 1px 1px navy;
+	z-index: 10;
+}
+#f{
+	display: inline-block;
+	color: #C90000;
+	text-shadow: 1px 1px 1px pink;
+}

@@ -1,0 +1,439 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta data-react-helmet="true" name="twitter:description" content="自己实现的网络拓扑图"/><meta data-react-helmet="true" name="twitter:title" content="自己实现的网络拓扑图"/><meta data-react-helmet="true" name="twitter:creator" content="kylemathews"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" property="og:description" content="自己实现的网络拓扑图"/><meta data-react-helmet="true" property="og:title" content="自己实现的网络拓扑图"/><meta data-react-helmet="true" name="description" content="自己实现的网络拓扑图"/><meta name="generator" content="Gatsby 4.18.2"/><style data-href="/vance/styles.987ade55cff1b06be55b.css" data-identity="gatsby-global-css">@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:100;src:local("Montserrat Thin "),local("Montserrat-Thin"),url(/vance/static/montserrat-latin-100-8d7d79679b70dbe27172b6460e7a7910.woff2) format("woff2"),url(/vance/static/montserrat-latin-100-ec38980a9e0119a379e2a9b3dbb1901a.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:100;src:local("Montserrat Thin italic"),local("Montserrat-Thinitalic"),url(/vance/static/montserrat-latin-100italic-e279051046ba1286706adc886cf1c96b.woff2) format("woff2"),url(/vance/static/montserrat-latin-100italic-3b325a3173c8207435cd1b76e19bf501.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:200;src:local("Montserrat Extra Light "),local("Montserrat-Extra Light"),url(/vance/static/montserrat-latin-200-9d266fbbfa6cab7009bd56003b1eeb67.woff2) format("woff2"),url(/vance/static/montserrat-latin-200-2d8ba08717110d27122e54c34b8a5798.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:200;src:local("Montserrat Extra Light italic"),local("Montserrat-Extra Lightitalic"),url(/vance/static/montserrat-latin-200italic-6e5b3756583bb2263eb062eae992735e.woff2) format("woff2"),url(/vance/static/montserrat-latin-200italic-a0d6f343e4b536c582926255367a57da.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:300;src:local("Montserrat Light "),local("Montserrat-Light"),url(/vance/static/montserrat-latin-300-00b3e893aab5a8fd632d6342eb72551a.woff2) format("woff2"),url(/vance/static/montserrat-latin-300-ea303695ceab35f17e7d062f30e0173b.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:300;src:local("Montserrat Light italic"),local("Montserrat-Lightitalic"),url(/vance/static/montserrat-latin-300italic-56f34ea368f6aedf89583d444bbcb227.woff2) format("woff2"),url(/vance/static/montserrat-latin-300italic-54b0bf2c8c4c12ffafd803be2466a790.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:400;src:local("Montserrat Regular "),local("Montserrat-Regular"),url(/vance/static/montserrat-latin-400-b71748ae4f80ec8c014def4c5fa8688b.woff2) format("woff2"),url(/vance/static/montserrat-latin-400-0659a9f4e90db5cf51b50d005bff1e41.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:400;src:local("Montserrat Regular italic"),local("Montserrat-Regularitalic"),url(/vance/static/montserrat-latin-400italic-6eed6b4cbb809c6efc7aa7ddad6dbe3e.woff2) format("woff2"),url(/vance/static/montserrat-latin-400italic-7583622cfde30ae49086d18447ab28e7.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:500;src:local("Montserrat Medium "),local("Montserrat-Medium"),url(/vance/static/montserrat-latin-500-091b209546e16313fd4f4fc36090c757.woff2) format("woff2"),url(/vance/static/montserrat-latin-500-edd311588712a96bbf435fad264fff62.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:500;src:local("Montserrat Medium italic"),local("Montserrat-Mediumitalic"),url(/vance/static/montserrat-latin-500italic-c90ced68b46050061d1a41842d6dfb43.woff2) format("woff2"),url(/vance/static/montserrat-latin-500italic-5146cbfe02b1deea5dffea27a5f2f998.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:600;src:local("Montserrat SemiBold "),local("Montserrat-SemiBold"),url(/vance/static/montserrat-latin-600-0480d2f8a71f38db8633b84d8722e0c2.woff2) format("woff2"),url(/vance/static/montserrat-latin-600-b77863a375260a05dd13f86a1cee598f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:600;src:local("Montserrat SemiBold italic"),local("Montserrat-SemiBolditalic"),url(/vance/static/montserrat-latin-600italic-cf46ffb11f3a60d7df0567f8851a1d00.woff2) format("woff2"),url(/vance/static/montserrat-latin-600italic-c4fcfeeb057724724097167e57bd7801.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:700;src:local("Montserrat Bold "),local("Montserrat-Bold"),url(/vance/static/montserrat-latin-700-7dbcc8a5ea2289d83f657c25b4be6193.woff2) format("woff2"),url(/vance/static/montserrat-latin-700-99271a835e1cae8c76ef8bba99a8cc4e.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:700;src:local("Montserrat Bold italic"),local("Montserrat-Bolditalic"),url(/vance/static/montserrat-latin-700italic-c41ad6bdb4bd504a843d546d0a47958d.woff2) format("woff2"),url(/vance/static/montserrat-latin-700italic-6779372f04095051c62ed36bc1dcc142.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:800;src:local("Montserrat ExtraBold "),local("Montserrat-ExtraBold"),url(/vance/static/montserrat-latin-800-db9a3e0ba7eaea32e5f55328ace6cf23.woff2) format("woff2"),url(/vance/static/montserrat-latin-800-4e3c615967a2360f5db87d2f0fd2456f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:800;src:local("Montserrat ExtraBold italic"),local("Montserrat-ExtraBolditalic"),url(/vance/static/montserrat-latin-800italic-bf45bfa14805969eda318973947bc42b.woff2) format("woff2"),url(/vance/static/montserrat-latin-800italic-fe82abb0bcede51bf724254878e0c374.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:900;src:local("Montserrat Black "),local("Montserrat-Black"),url(/vance/static/montserrat-latin-900-e66c7edc609e24bacbb705175669d814.woff2) format("woff2"),url(/vance/static/montserrat-latin-900-8211f418baeb8ec880b80ba3c682f957.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:900;src:local("Montserrat Black italic"),local("Montserrat-Blackitalic"),url(/vance/static/montserrat-latin-900italic-4454c775e48152c1a72510ceed3603e2.woff2) format("woff2"),url(/vance/static/montserrat-latin-900italic-efcaa0f6a82ee0640b83a0916e6e8d68.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:normal;font-weight:300;src:local("Merriweather Light "),local("Merriweather-Light"),url(/vance/static/merriweather-latin-300-fc117160c69a8ea0851b26dd14748ee4.woff2) format("woff2"),url(/vance/static/merriweather-latin-300-58b18067ebbd21fda77b67e73c241d3b.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:italic;font-weight:300;src:local("Merriweather Light italic"),local("Merriweather-Lightitalic"),url(/vance/static/merriweather-latin-300italic-fe29961474f8dbf77c0aa7b9a629e4bc.woff2) format("woff2"),url(/vance/static/merriweather-latin-300italic-23c3f1f88683618a4fb8d265d33d383a.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:normal;font-weight:400;src:local("Merriweather Regular "),local("Merriweather-Regular"),url(/vance/static/merriweather-latin-400-d9479e8023bef9cbd9bf8d6eabd6bf36.woff2) format("woff2"),url(/vance/static/merriweather-latin-400-040426f99ff6e00b86506452e0d1f10b.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:italic;font-weight:400;src:local("Merriweather Regular italic"),local("Merriweather-Regularitalic"),url(/vance/static/merriweather-latin-400italic-2de7bfeaf08fb03d4315d49947f062f7.woff2) format("woff2"),url(/vance/static/merriweather-latin-400italic-79db67aca65f5285964ab332bd65f451.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:normal;font-weight:700;src:local("Merriweather Bold "),local("Merriweather-Bold"),url(/vance/static/merriweather-latin-700-4b08e01d805fa35d7bf777f1b24314ae.woff2) format("woff2"),url(/vance/static/merriweather-latin-700-22fb8afba4ab1f093b6ef9e28a9b6e92.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:italic;font-weight:700;src:local("Merriweather Bold italic"),local("Merriweather-Bolditalic"),url(/vance/static/merriweather-latin-700italic-cd92541b177652fffb6e3b952f1c33f1.woff2) format("woff2"),url(/vance/static/merriweather-latin-700italic-f87f3d87cea0dd0979bfc8ac9ea90243.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:normal;font-weight:900;src:local("Merriweather Black "),local("Merriweather-Black"),url(/vance/static/merriweather-latin-900-f813fc6a4bee46eda5224ac7ebf1b7be.woff2) format("woff2"),url(/vance/static/merriweather-latin-900-5d4e42cb44410674acd99153d57df032.woff) format("woff")}@font-face{font-display:swap;font-family:Merriweather;font-style:italic;font-weight:900;src:local("Merriweather Black italic"),local("Merriweather-Blackitalic"),url(/vance/static/merriweather-latin-900italic-b7901d85486871c1779c0e93ddd85656.woff2) format("woff2"),url(/vance/static/merriweather-latin-900italic-9647f9fdab98756989a8a5550eb205c3.woff) format("woff")}
+
+
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{-webkit-text-size-adjust:100%;line-height:1.15}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}[hidden]{display:none}:root{--maxWidth-none:"none";--maxWidth-xs:20rem;--maxWidth-sm:24rem;--maxWidth-md:28rem;--maxWidth-lg:32rem;--maxWidth-xl:36rem;--maxWidth-2xl:42rem;--maxWidth-3xl:48rem;--maxWidth-4xl:56rem;--maxWidth-full:"100%";--maxWidth-wrapper:var(--maxWidth-2xl);--spacing-px:"1px";--spacing-0:0;--spacing-1:0.25rem;--spacing-2:0.5rem;--spacing-3:0.75rem;--spacing-4:1rem;--spacing-5:1.25rem;--spacing-6:1.5rem;--spacing-8:2rem;--spacing-10:2.5rem;--spacing-12:3rem;--spacing-16:4rem;--spacing-20:5rem;--spacing-24:6rem;--spacing-32:8rem;--fontFamily-sans:Montserrat,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--fontFamily-serif:"Merriweather","Georgia",Cambria,"Times New Roman",Times,serif;--font-body:var(--fontFamily-serif);--font-heading:var(--fontFamily-sans);--fontWeight-normal:400;--fontWeight-medium:500;--fontWeight-semibold:600;--fontWeight-bold:700;--fontWeight-extrabold:800;--fontWeight-black:900;--fontSize-root:16px;--lineHeight-none:1;--lineHeight-tight:1.1;--lineHeight-normal:1.5;--lineHeight-relaxed:1.625;--fontSize-0:0.833rem;--fontSize-1:1rem;--fontSize-2:1.2rem;--fontSize-3:1.44rem;--fontSize-4:1.728rem;--fontSize-5:2.074rem;--fontSize-6:2.488rem;--fontSize-7:2.986rem;--color-primary:#005b99;--color-text:#2e353f;--color-text-light:#4f5969;--color-heading:#1a202c;--color-heading-black:#000;--color-accent:#d1dce5}*,:after,:before{box-sizing:border-box}html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:var(--fontSize-root);line-height:var(--lineHeight-normal)}body{color:var(--color-text);font-family:var(--font-body);font-size:var(--fontSize-1)}footer{padding:var(--spacing-6) var(--spacing-0)}hr{background:var(--color-accent);border:0;height:1px}h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);letter-spacing:-.025em;line-height:var(--lineHeight-tight);margin-bottom:var(--spacing-6);margin-top:var(--spacing-12)}h2,h3,h4,h5,h6{color:var(--color-heading);font-weight:var(--fontWeight-bold)}h1{color:var(--color-heading-black);font-size:var(--fontSize-6);font-weight:var(--fontWeight-black)}h2{font-size:var(--fontSize-5)}h3{font-size:var(--fontSize-4)}h4{font-size:var(--fontSize-3)}h5{font-size:var(--fontSize-2)}h6{font-size:var(--fontSize-1)}h1>a,h2>a,h3>a,h4>a,h5>a,h6>a{color:inherit;text-decoration:none}p{--baseline-multiplier:0.179;--x-height-multiplier:0.35;line-height:var(--lineHeight-relaxed);margin:var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0)}ol,p,ul{padding:var(--spacing-0)}ol,ul{list-style-image:none;list-style-position:outside;margin-bottom:var(--spacing-8);margin-left:var(--spacing-0);margin-right:var(--spacing-0)}ol li,ul li{padding-left:var(--spacing-0)}li>p,ol li,ul li{margin-bottom:calc(var(--spacing-8)/2)}li :last-child{margin-bottom:var(--spacing-0)}li>ul{margin-left:var(--spacing-8);margin-top:calc(var(--spacing-8)/2)}blockquote{border-left:var(--spacing-1) solid var(--color-primary);color:var(--color-text-light);font-size:var(--fontSize-2);font-style:italic;margin-bottom:var(--spacing-8);margin-left:calc(var(--spacing-6)*-1);margin-right:var(--spacing-8);padding:var(--spacing-0) var(--spacing-0) var(--spacing-0) var(--spacing-6)}blockquote>:last-child{margin-bottom:var(--spacing-0)}blockquote>ol,blockquote>ul{list-style-position:inside}table{border-collapse:collapse;border-spacing:.25rem;margin-bottom:var(--spacing-8);width:100%}table thead tr th{background-color:#eff3f5;font-weight:700}table thead tr th,table tr td{border:1px solid #dedede;min-width:100px;padding:10px;text-align:left;vertical-align:middle;word-break:normal!important}a{color:var(--color-primary)}a:focus,a:hover{text-decoration:none}.global-wrapper{margin:var(--spacing-0) auto;max-width:var(--maxWidth-wrapper);padding:var(--spacing-10) var(--spacing-5)}.global-wrapper[data-is-root-path=true] .bio{margin-bottom:var(--spacing-20)}.global-header{margin-bottom:var(--spacing-12)}.main-heading{font-size:var(--fontSize-7);margin:0}.post-list-item{margin-bottom:var(--spacing-8);margin-top:var(--spacing-8)}.post-list-item p{margin-bottom:var(--spacing-0)}.post-list-item h2{color:var(--color-primary);font-size:var(--fontSize-4);margin-bottom:var(--spacing-2);margin-top:var(--spacing-0)}.post-list-item header{margin-bottom:var(--spacing-4)}.header-link-home{font-family:var(--font-heading);font-size:var(--fontSize-2);font-weight:var(--fontWeight-bold);text-decoration:none}.bio{display:flex;margin-bottom:var(--spacing-16)}.bio p,.bio-avatar{margin-bottom:var(--spacing-0)}.bio-avatar{border-radius:100%;margin-right:var(--spacing-4);min-width:50px}.blog-post header h1{margin:var(--spacing-0) var(--spacing-0) var(--spacing-4) var(--spacing-0)}.blog-post header p{font-family:var(--font-heading);font-size:var(--fontSize-2)}.blog-post-nav ul{margin:var(--spacing-0)}.gatsby-highlight{margin-bottom:var(--spacing-8)}@media (max-width:42rem){blockquote{margin-left:var(--spacing-0);padding:var(--spacing-0) var(--spacing-0) var(--spacing-0) var(--spacing-4)}ol,ul{list-style-position:inside}}.content{margin:var(--spacing-0) auto;padding:var(--spacing-10) var(--spacing-5);width:var(--maxWidth-wrapper)}.b-header{display:flex;margin-bottom:32px}.title h1{color:#383838;font-size:24px;font-weight:700;height:var(--spacing-8);line-height:var(--spacing-8)}#nav ul,.title h1{margin:0;padding:0}#nav ul{display:flex}#nav ul li{border-right:1px dotted;border-color:#2bbc8a;display:inline-block;font-size:12.8px;font-style:normal;font-weight:200;line-height:15px;list-style-type:none;margin-right:15px;vertical-align:middle}#nav ul li:last-child{border-right-width:0}#nav ul a{color:#2bbc8a;margin-right:var(--spacing-4);text-decoration:unset}#about p{color:#383838;font-family:Menlo,Meslo LG,monospace;font-size:14px;font-weight:400;line-height:var(--spacing-6)}#writing .h1{color:#2bbc8a;display:block;font-style:normal;font-weight:700;margin-bottom:var(--spacing-4);margin-top:var(--spacing-12)}#writing .h1 .title{color:#2bbc8a;font-family:Menlo,Meslo LG,monospace;font-size:21px;text-decoration:unset}#writing .post-list li{display:flex;list-style-type:none}#writing .post-list li .meta{color:#666;display:block;font-size:14px;margin-right:var(--spacing-4);min-width:100px}code[class*=language-],pre[class*=language-]{word-wrap:normal;background:none;color:#000;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;-webkit-hyphens:none;hyphens:none;line-height:1.5;-o-tab-size:4;tab-size:4;text-align:left;text-shadow:0 1px #fff;white-space:pre;word-break:normal;word-spacing:normal}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#b3d4fc;text-shadow:none}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background:#f5f2f0}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em;white-space:normal}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#708090}.token.punctuation{color:#999}.token.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#905}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#690}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{background:hsla(0,0%,100%,.5);color:#9a6e3a}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.class-name,.token.function{color:#dd4a68}.token.important,.token.regex,.token.variable{color:#e90}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}</style><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><link rel="alternate" type="application/rss+xml" title="Vance’s Blog RSS Feed" href="/vance/rss.xml"/><link rel="icon" href="/vance/favicon-32x32.png?v=d78c2e15687bbaacde9017dd85cd6674" type="image/png"/><link rel="manifest" href="/vance/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/vance/icons/icon-48x48.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="72x72" href="/vance/icons/icon-72x72.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="96x96" href="/vance/icons/icon-96x96.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="144x144" href="/vance/icons/icon-144x144.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="192x192" href="/vance/icons/icon-192x192.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="256x256" href="/vance/icons/icon-256x256.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="384x384" href="/vance/icons/icon-384x384.png?v=d78c2e15687bbaacde9017dd85cd6674"/><link rel="apple-touch-icon" sizes="512x512" href="/vance/icons/icon-512x512.png?v=d78c2e15687bbaacde9017dd85cd6674"/><title data-react-helmet="true">自己实现的网络拓扑图 | Vance’s Blog</title></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="global-wrapper" data-is-root-path="false"><header class="global-header"><a class="header-link-home" href="/vance/">Vance’s Blog</a></header><main><article class="blog-post" itemscope="" itemType="http://schema.org/Article"><header><h1 itemProp="headline">自己实现的网络拓扑图</h1><p>September 09, 2018</p></header><section itemProp="articleBody"><h2>拓扑图库</h2>
+<h3>一 、前言</h3>
+<p><em>目前 drawtool.js 已经服务于四个以上的项目。</em></p>
+<h3>二 、drawtool.js 提供的功能</h3>
+<p><strong>drawtool.js</strong> 为图（包含树）这样结构的数据的界面化，提供了解决方案。</p>
+<p>即： 为点和线的图形操作提供了方案。</p>
+<p>可以举例以下几种情况</p>
+<ol>
+<li>画一个流程图。</li>
+<li>画一个组织架构图。</li>
+<li>画一个城市交通图。</li>
+</ol>
+<p>可以看下面的 demo
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 365px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/vance/static/b06feadca2de68e2e9fbe0eeda5b1fea/60097/drawtool.1.jpg"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 67.08860759493672%; position: relative; bottom: 0; left: 0; background-image: url('data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAEF/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAAB3oFB/8QAFBABAAAAAAAAAAAAAAAAAAAAIP/aAAgBAQABBQJf/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAFBABAAAAAAAAAAAAAAAAAAAAIP/aAAgBAQAGPwJf/8QAGBAAAgMAAAAAAAAAAAAAAAAAAAEQESH/2gAIAQEAAT8hboWZDiz/2gAMAwEAAgADAAAAEEMP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAGhAAAgIDAAAAAAAAAAAAAAAAAREAIRAxQf/aAAgBAQABPxBBpyzY9eGJ3yWQLsYf/9k='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="这里写图片描述"
+        title="这里写图片描述"
+        src="/vance/static/b06feadca2de68e2e9fbe0eeda5b1fea/60097/drawtool.1.jpg"
+        srcset="/vance/static/b06feadca2de68e2e9fbe0eeda5b1fea/ff44c/drawtool.1.jpg 158w,
+/vance/static/b06feadca2de68e2e9fbe0eeda5b1fea/a6688/drawtool.1.jpg 315w,
+/vance/static/b06feadca2de68e2e9fbe0eeda5b1fea/60097/drawtool.1.jpg 365w"
+        sizes="(max-width: 365px) 100vw, 365px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/vance/static/08ee75bd93d64d3c87ce6a1e6c4ca785/f0afc/drawtool.2.jpg"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 41.77215189873418%; position: relative; bottom: 0; left: 0; background-image: url('data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAEF/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAAB3aEB/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQABBQJ//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwJ//8QAFxABAQEBAAAAAAAAAAAAAAAAACEBcf/aAAgBAQABPyGqzr//2gAMAwEAAgADAAAAEIPP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAGhAAAgIDAAAAAAAAAAAAAAAAAREAMUFRgf/aAAgBAQABPxC1BQbLkBBMVkz/2Q=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="在这里插入图片描述"
+        title="在这里插入图片描述"
+        src="/vance/static/08ee75bd93d64d3c87ce6a1e6c4ca785/828fb/drawtool.2.jpg"
+        srcset="/vance/static/08ee75bd93d64d3c87ce6a1e6c4ca785/ff44c/drawtool.2.jpg 158w,
+/vance/static/08ee75bd93d64d3c87ce6a1e6c4ca785/a6688/drawtool.2.jpg 315w,
+/vance/static/08ee75bd93d64d3c87ce6a1e6c4ca785/828fb/drawtool.2.jpg 630w,
+/vance/static/08ee75bd93d64d3c87ce6a1e6c4ca785/f0afc/drawtool.2.jpg 658w"
+        sizes="(max-width: 630px) 100vw, 630px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 538px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/vance/static/f47bf9a51a2f97a9de6163db512c7f26/80320/drawtool.3.jpg"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 66.45569620253164%; position: relative; bottom: 0; left: 0; background-image: url('data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAQACBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAe6aBiP/xAAUEAEAAAAAAAAAAAAAAAAAAAAg/9oACAEBAAEFAl//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAWEAADAAAAAAAAAAAAAAAAAAAAICH/2gAIAQEABj8CIv8A/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERMSFBUYGh/9oACAEBAAE/IW8wuylMJfpdGzgR/9oADAMBAAIAAwAAABDAz//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABwQAQADAAMBAQAAAAAAAAAAAAEAESExQVFh8f/aAAgBAQABPxBKULeL4PYpqls3F+QQWhLrJWnOPIABoz5MHHfU/9k='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="在这里插入图片描述"
+        title="在这里插入图片描述"
+        src="/vance/static/f47bf9a51a2f97a9de6163db512c7f26/80320/drawtool.3.jpg"
+        srcset="/vance/static/f47bf9a51a2f97a9de6163db512c7f26/ff44c/drawtool.3.jpg 158w,
+/vance/static/f47bf9a51a2f97a9de6163db512c7f26/a6688/drawtool.3.jpg 315w,
+/vance/static/f47bf9a51a2f97a9de6163db512c7f26/80320/drawtool.3.jpg 538w"
+        sizes="(max-width: 538px) 100vw, 538px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+  </a>
+    </span></p>
+<h3>三、 drawtool.js 提供的 API</h3>
+<h4>1.引入</h4>
+<p>drawtool.js 支持 nodeJs 引入，AMD 规范引入、CMD 规范引入和直接引入。</p>
+<p>标签直接引入：
+drawtool.css 是内置样式表，可以方便覆盖。</p>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../drawtool/drawtool.css<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../drawtool/drawtool.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre></div>
+<p>drawtool 也支持 npm 安装</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> drawtool</code></pre></div>
+<p>安装后引入如下：</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">import</span> Drawtool <span class="token keyword">from</span> <span class="token string">"drawtool"</span>
+<span class="token keyword">import</span> <span class="token string">"drawtool/drawtool.css"</span></code></pre></div>
+<h4>2.初始化</h4>
+<p>页面放置一个 div，drawtool.js 会根据 div 的大小初始化一个画布。</p>
+<p>html</p>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre></div>
+<p>style</p>
+<div class="gatsby-highlight" data-language="css"><pre class="language-css"><code class="language-css"><span class="token selector">#canvas</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 800px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #fafafa<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>javascript</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"canvas"</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> drawtool <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Drawtool</span><span class="token punctuation">(</span>canvas<span class="token punctuation">)</span></code></pre></div>
+<h4>3 全局属性配置</h4>
+<p>drawtool.js 在初始化的过程中可以配置一些常用属性。</p>
+<p>可配置属性包括下面：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>属性</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>lineColor</td>
+<td>线的颜色</td>
+<td>#26b7d0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>lineHoverColor</td>
+<td>线处于 hover 状态的颜色</td>
+<td>rgba(200, 200, 200, 0.4)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>arrowColor</td>
+<td>箭头的颜色</td>
+<td>#444</td>
+</tr>
+<tr>
+<td>4</td>
+<td>lineStyle</td>
+<td>线有无箭头 arrow 有箭头 none 无箭头</td>
+<td>arrow</td>
+</tr>
+<tr>
+<td>5</td>
+<td>lineType</td>
+<td>线性 broken 折线 bezier 贝塞尔曲线 straight 直线</td>
+<td>bezier</td>
+</tr>
+<tr>
+<td>6</td>
+<td>auto</td>
+<td>是否自动计算控制点，只对折线有效。 true 自动计算， false 不自动计算</td>
+<td>true</td>
+</tr>
+<tr>
+<td>7</td>
+<td>lineActiveColor</td>
+<td>线处于激活状态颜色</td>
+<td>#2177C7</td>
+</tr>
+</tbody>
+</table>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"canvas"</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> setting <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">lineColor</span><span class="token operator">:</span> <span class="token string">"#26b7d0"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">lineHoverColor</span><span class="token operator">:</span> <span class="token string">"#aaa"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">arrowColor</span><span class="token operator">:</span> <span class="token string">"#444"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">lineStyle</span><span class="token operator">:</span> <span class="token string">"arrow"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">lineType</span><span class="token operator">:</span> <span class="token string">"broken"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">auto</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> drawtool <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Drawtool</span><span class="token punctuation">(</span>canvas<span class="token punctuation">,</span> setting<span class="token punctuation">)</span></code></pre></div>
+<p><strong>注意：此处配置为全局性的，权重级别最低。</strong></p>
+<h4>4.增加节点</h4>
+<p>drawtool.js 的节点是用 dom 构造，这样做是为了更灵活的操作节点。
+配置一个节点有四个属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pos</td>
+<td>节点添加的位置坐标 x 为横坐标， y 为纵坐标</td>
+</tr>
+<tr>
+<td>template</td>
+<td>可以传入 html 字符串模板或者一个 dom 元素，drawtool.js 将会为 html 模板创建一个节点容器，若是 html 字符串，则 innerHTML 方法将模板写入节点容器。若是 dom 元素，则会直接将 dom 元素插入节点容器。</td>
+</tr>
+<tr>
+<td>anchors</td>
+<td>连线点的相对坐标，以 html 模板的中心为坐标系原点。</td>
+</tr>
+<tr>
+<td>nodeid</td>
+<td>节点 id， 为数值类型，不传入会自动递增构造。</td>
+</tr>
+</tbody>
+</table>
+<p>若是采用 vue 等无 dom 开发，可以在 template 内传入 dom。
+addNode 方法的返回值是节点 dom，dom 上挂载了 nodeid 属性。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> option <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">pos</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token literal-property property">x</span><span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token literal-property property">y</span><span class="token operator">:</span> <span class="token number">20</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">template</span><span class="token operator">:</span> <span class="token string">"&lt;div class='node js-node'>test&lt;/div>"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">anchors</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> node <span class="token operator">=</span> drawtool<span class="token punctuation">.</span><span class="token function">addNode</span><span class="token punctuation">(</span>option<span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>nodeid<span class="token punctuation">)</span></code></pre></div>
+<h4>5.删除节点</h4>
+<p>通过 nodeid 可以删除节点。nodeid 可以通过 dom 获取。
+删除节点的同时，会将与之相连的线条全部删除。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// jquery代码示例</span>
+<span class="token keyword">var</span> nodeid <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">".js-node"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>nodeid
+drawtool<span class="token punctuation">.</span><span class="token function">deleteNodeById</span><span class="token punctuation">(</span>nodeid<span class="token punctuation">)</span></code></pre></div>
+<h4>6.清除画布</h4>
+<p>清除画布是删除 drawtool.js 上面所有的节点和连线。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">drawtool<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre></div>
+<h4>7.事件监听</h4>
+<p>drawtool.js 提供了事件监听切面，让我们可以控制连线点击等操作。而对于节点事件的操作，则全部交给 dom 完成。</p>
+<p>drawtool.js 提供的事件如下：</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>clickLine</td>
+<td>点击连线</td>
+<td>参数是当前点击的线条</td>
+</tr>
+<tr>
+<td>2</td>
+<td>deleteLineBefore</td>
+<td>删除连线之前</td>
+<td>参数是当前线条，返回 true 表示可以删除，返回 false 不删除。 缺省为 true。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>deleteLineAfter</td>
+<td>删除连线之后</td>
+<td>参数是当前线条</td>
+</tr>
+<tr>
+<td>4</td>
+<td>linkLineBefore</td>
+<td>连线前</td>
+<td>参数是当前线条，此时为点击第二个连线点，返回 true 表示可以连线，返回 false 不连线。 缺省为 true。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>linkLineAfter</td>
+<td>连线后</td>
+<td>参数是当前线条</td>
+</tr>
+<tr>
+<td>6</td>
+<td>linkLineStart</td>
+<td>开始连线</td>
+<td>参数是当前线条，<strong>此处是设置局部线性配置的地方。</strong></td>
+</tr>
+</tbody>
+</table>
+<p>可以使用如下监听方式：</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">drawtool<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token function-variable function">clickLine</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">deleteLineBefore</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">deleteLineAfter</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">linkLineBefore</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function-variable function">linkLineAfter</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<p>drawtool.js 也支持下列调用</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">drawtool<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token string">"linkLineStart"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<p><strong>注意：
+— drawtool.js 不支持重复绑定，重复绑定会引发覆盖操作。
+— 所有的事件方法，this 都指向 drawtool 实例。</strong></p>
+<h4>8.局部属性设置</h4>
+<p><strong>drawtool.js 局部属性是针对线条设置的，它覆盖全局属性。</strong></p>
+<p>通过对 linkLineStart 的监听，调用线条的方法，可以完成局部属性设置。</p>
+<p>支持三种局部属性：</p>
+<ol>
+<li>setStyle 箭头设置， arrow，none；</li>
+<li>setType 线性设置， broken，bezier，straight</li>
+<li>setAuto 是否自动计算，只支持折线， true，false</li>
+</ol>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">// 动态设置线的样式</span>
+drawtool<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token string">"linkLineStart"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">line</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  line<span class="token punctuation">.</span><span class="token function">setStyle</span><span class="token punctuation">(</span><span class="token string">"arrow"</span><span class="token punctuation">)</span>
+  line<span class="token punctuation">.</span><span class="token function">setType</span><span class="token punctuation">(</span><span class="token string">"broken"</span><span class="token punctuation">)</span>
+  line<span class="token punctuation">.</span><span class="token function">setAuto</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<h4>9.禁用模式</h4>
+<p>drawtool.js 可以设置禁用模式</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">drawtool<span class="token punctuation">.</span><span class="token function">setDisabled</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span></code></pre></div>
+<p>setDisabled 方法接收一个布尔值，
+true 为禁用模式，false 为非禁用模式。
+<strong>禁用模式下，点线事件失效，但可以通过 api 调用。</strong></p>
+<h4>10.存为图片</h4>
+<p>drawtool.js 利用 svg 和 canvas 合成图片。。
+若有图片，受 svg 限制，<strong>必须使用 img 标签引入图片，使用 background 将不会被支持导出</strong>。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">drawtool<span class="token punctuation">.</span><span class="token function">getImage</span><span class="token punctuation">(</span>fn<span class="token punctuation">,</span> deep<span class="token punctuation">)</span></code></pre></div>
+<p>fn — 回调方法，函数类型。参数为 base64 编码。
+deep — 是否深获取，布尔类型，true 为下载图片。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">drawtool<span class="token punctuation">.</span><span class="token function">getImage</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span></code></pre></div>
+<p><strong>注意：受浏览器兼容影响，ie 浏览器不支持，若完成复杂的图片存储，建议采用其他插件配合完成。</strong></p>
+<h4>11.数据存储</h4>
+<p>drawtool.js 内部管理节点栈和连线栈。我们可以通过接口，来获取数组格式的节点和连线。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> lineArr <span class="token operator">=</span> drawtool<span class="token punctuation">.</span><span class="token function">getAllLines</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> nodeArr <span class="token operator">=</span> drawtool<span class="token punctuation">.</span><span class="token function">getAllNodesInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">"lineArr"</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>lineArr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">"nodeArr"</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>nodeArr<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre></div>
+<p>drawtool.js 还管理了所有的 canvas 上的所有 dom，我们也可以获取。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> domArr <span class="token operator">=</span> drawtool<span class="token punctuation">.</span><span class="token function">getAllNodes</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre></div>
+<h4>12.数据读取</h4>
+<p>drawtool.js 可以直接读取节点和连线数组，来初始化画布。</p>
+<p><strong>init 方法可以直接读取 drawtool.js 输出的数据。</strong></p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">var</span> lineArr <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">"lineArr"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> nodeArr <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">"nodeArr"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+drawtool<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>nodeArr<span class="token punctuation">,</span> lineArr<span class="token punctuation">)</span></code></pre></div>
+<h4>13.vue 中使用</h4>
+<p>drawtool.js 没有对 dom 进行控制，而是通过 addNode 方法将 dom 的操作权转让给外界。也即 drawtool.js 不干涉 dom 行为，只提供一个节点容器。</p>
+<p>例如下面：
+可以构造一个 node 模板</p>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">@contextmenu</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>show<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>A<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">v-if</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>option<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>deletes<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>删除<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+  <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">"node"</span><span class="token punctuation">,</span>
+    <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">option</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">methods</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>option <span class="token operator">=</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>option
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token function">deletes</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">"deleteClick"</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre></div>
+<p>然后在主模块中做如下操作：</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token keyword">let</span> option <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">pos</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">x</span><span class="token operator">:</span> <span class="token number">30</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">y</span><span class="token operator">:</span> <span class="token number">50</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">template</span><span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>node<span class="token punctuation">.</span>$el<span class="token punctuation">,</span>
+  <span class="token literal-property property">anchors</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">40</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>drawtool<span class="token punctuation">.</span><span class="token function">addNode</span><span class="token punctuation">(</span>option<span class="token punctuation">)</span></code></pre></div>
+<h3>四、 性能</h3>
+<p>drawtool.js 最大性能问题是事件和渲染，
+事件：drawtool.js 内部实现了自己的事件方法，优化管理事件。
+渲染：drawtool.js 采用局部渲染方法，保证最小程度的重绘。</p>
+<h3>五、 自我保护</h3>
+<h4>1. 数据私有化</h4>
+<p>drawtool.js 所有数据都采用 getter/setter 获取和设置。</p>
+<h4>2. 动态 class</h4>
+<p>drawtool.js 提供了 dom 的标准化获取方法，不建议使用 dom 操作来获取和操作 dom，因此 drawtool.js 会将关键的 dom 采用动态 class 生成方法，来防止外界直接操作 dom。</p>
+<h3>六、 存在的问题</h3>
+<ul>
+<li>线上文字未实现。</li>
+</ul>
+<h3>七、 代码 demo</h3>
+<p>版本： 1.1.1
+代码量：28k</p>
+<p>版本： 1.2.0
+代码量：53k</p>
+<p>gitHub 地址：
+<a href="https://github.com/fwx426328/drawtool">https://github.com/fwx426328/drawtool</a></p></section><hr/><footer><div class="bio"><div data-gatsby-image-wrapper="" style="width:50px;height:50px" class="gatsby-image-wrapper bio-avatar"><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#a89898;width:50px;height:50px;position:relative"></div><picture><source type="image/avif" data-srcset="/vance/static/d78c2e15687bbaacde9017dd85cd6674/d4bf4/profile-pic.avif 50w,/vance/static/d78c2e15687bbaacde9017dd85cd6674/ee81f/profile-pic.avif 100w" sizes="50px"/><source type="image/webp" data-srcset="/vance/static/d78c2e15687bbaacde9017dd85cd6674/3faea/profile-pic.webp 50w,/vance/static/d78c2e15687bbaacde9017dd85cd6674/6a679/profile-pic.webp 100w" sizes="50px"/><img data-gatsby-image-ssr="" layout="fixed" data-main-image="" style="opacity:0" sizes="50px" decoding="async" loading="lazy" data-src="/vance/static/d78c2e15687bbaacde9017dd85cd6674/e5610/profile-pic.png" data-srcset="/vance/static/d78c2e15687bbaacde9017dd85cd6674/e5610/profile-pic.png 50w,/vance/static/d78c2e15687bbaacde9017dd85cd6674/e9b55/profile-pic.png 100w" alt="Profile picture"/></picture><noscript><picture><source type="image/avif" srcSet="/vance/static/d78c2e15687bbaacde9017dd85cd6674/d4bf4/profile-pic.avif 50w,/vance/static/d78c2e15687bbaacde9017dd85cd6674/ee81f/profile-pic.avif 100w" sizes="50px"/><source type="image/webp" srcSet="/vance/static/d78c2e15687bbaacde9017dd85cd6674/3faea/profile-pic.webp 50w,/vance/static/d78c2e15687bbaacde9017dd85cd6674/6a679/profile-pic.webp 100w" sizes="50px"/><img data-gatsby-image-ssr="" layout="fixed" data-main-image="" style="opacity:0" sizes="50px" decoding="async" loading="lazy" src="/vance/static/d78c2e15687bbaacde9017dd85cd6674/e5610/profile-pic.png" srcSet="/vance/static/d78c2e15687bbaacde9017dd85cd6674/e5610/profile-pic.png 50w,/vance/static/d78c2e15687bbaacde9017dd85cd6674/e9b55/profile-pic.png 100w" alt="Profile picture"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div><p>Written by <strong>Vance</strong> <!-- -->who lives and works in Shenzhen, China, and is working hard to improve.<!-- --> <a href="https://blog.csdn.net/fwx426328">You should follow them on csdn</a></p></div></footer></article><nav class="blog-post-nav"><ul style="display:flex;flex-wrap:wrap;justify-content:space-between;list-style:none;padding:0"><li><a rel="prev" href="/vance/02_miscellaneous_knowledge/04_essay/think/holmes/">← <!-- -->福尔摩斯与代码</a></li><li><a rel="next" href="/vance/01_technology/03_tools/git/">git 常用操作<!-- --> →</a></li></ul></nav></main><footer>© <!-- -->2024<!-- -->, Built with<!-- --> <a href="https://www.gatsbyjs.com">Gatsby</a></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/01_technology/01_client/web/003_自己实现的网络拓扑图/";window.___webpackCompilationHash="899bc668283ca21084eb";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-af5d4b1a28c02e404eb7.js"],"app":["/app-767c6ec0c593342899af.js"],"component---src-pages-404-js":["/component---src-pages-404-js-7f5fee0a7aaffe52310a.js"],"component---src-pages-index-js":["/component---src-pages-index-js-2253e6bfffb2731a1504.js"],"component---src-pages-tags-js":["/component---src-pages-tags-js-c01d5d8fe53ae62ee09d.js"],"component---src-pages-using-typescript-tsx":["/component---src-pages-using-typescript-tsx-42791f69ced16a3b9a59.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-77d1beb160d986f80877.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-13063cf7d3c491463bbe.js"]};/*]]>*/</script><script src="/vance/polyfill-af5d4b1a28c02e404eb7.js" nomodule=""></script><script src="/vance/app-767c6ec0c593342899af.js" async=""></script><script src="/vance/framework-0bb9e5b8468582f1c672.js" async=""></script><script src="/vance/webpack-runtime-69e2b96e00208320abef.js" async=""></script></body></html>
