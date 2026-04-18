@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>macthGame</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background: #DCE2F3;
+		}
+		h3{
+			margin: 10px auto 10px;
+			text-align: center;
+			color: #ccc;
+			text-shadow: 2px 2px 1px navy;
+
+		}
+		hr{
+			margin: 5px auto 5px;
+			width: 500px;
+			height: 5px;
+			background: #F7E892;
+		}
+		table{
+			width: 300px;
+			height: 400px;
+			border: solid 2px #D64D25;
+			margin: 0 auto;
+			box-shadow: 3px 3px 3px #F93E19;
+		}
+		td{
+			width:30px;
+			height: 80px;
+			background: #D4EFFF;
+			text-align:center;
+			box-shadow: 4px 4px 2px #2E2E52 inset;
+			color: #37DD80;
+			font-size: 24px;
+			font-weight: bold;
+			text-shadow: 2px 2px 1px navy;
+		}
+		td:hover{
+			cursor:pointer;
+		}
+		footer{
+			border-radius: 5px;
+			background:#CECECE;
+			text-align: center;
+			margin: 20px auto 0;
+			width: 500px;
+			height: 40px;
+			line-height: 40px;
+		}
+		[type=button]{
+			margin-left:30px;
+			background: #CE3CF6; 
+			border-radius: 5px;
+		}
+		[type=button]:hover{
+			cursor: pointer;
+			background: #F93E19;
+		}
+		[type=text]{
+			background: #A2997D;
+		}
+		[type=text]{
+			cursor:wait;
+		}
+		#scro{
+			margin: 0 auto;
+			width: 500px;
+			height: 50px;
+			text-align: right;
+		}
+
+	</style>
+</head>
+<body>
+<h3>配对游戏</h3>
+<div id="scro"></div>
+<hr>
+<table border="1">
+	<script>
+	//游戏难度的设定
+	var rows=5,cells=6;
+	function deg(_rows,_cells){
+		rows=_rows;
+		cells=_cells;
+		alert(rows)
+		createTab()
+	}
+	//输出表格
+	function createTab(){
+		var tab_store='';
+		for(var i=0;i<rows;i++){
+			tab_store+='<tr>';
+			for(var j=0;j<cells;j++){
+				var td_id='id_'+(cells*i+j);
+				tab_store+='<td id="'+td_id+'" onclick="showing('+(cells*i+j)+')">';
+				tab_store+='</td>'
+			}
+			tab_store+='</tr>';
+		}
+		document.write(tab_store);
+	}
+	createTab()
+	</script>
+</table>
+<footer>
+	<span>游戏难度：</span>
+	<select>  
+  		<option value="菜鸟">菜鸟</option>  
+  		<option value="初级">初级</option>  
+  		<option value="中级">中级</option>  
+  		<option value="高级">高级</option>  
+	</select> 
+	用时：<input type="text" size="10" readonly="readonly" value="0" id="gametime">
+	<input type="button" value="开始游戏" onclick="initial()">
+</footer>
+<script>
+var user=[];//存储可以翻开的状态
+var new_start=false;
+var time=0;
+var cell_nums=rows*cells;//单元格数目
+console.log(rows)
+console.log(cell_nums)
+function $(x){
+	return document.getElementById(x);
+}
+//存放单元格内容的数组
+var cell_content=[];
+for(var i=0;i<cell_nums/2;i++){
+	cell_content[i]=i;
+	cell_content[cell_nums/2+i]=i;
+}
+//初始化内容
+function initial(){
+	for(var i=0;i<cell_nums;i++){
+		$('id_'+i).innerHTML='';
+		user[i]=0;
+	}
+	cell_content.sort(function(){
+		return Math.random()-0.5;
+	})
+	//计时器清理
+	clearTimeout(id);
+	time=0;
+	$('gametime').value=time+'秒';
+	new_start=true;//标记为新开局
+}
+//翻开图片
+var ctr=1;
+var firstIndex=0,secondIndex=0;
+function showing(x){
+	if(new_start){
+		timing();
+		new_start=false;
+	}
+	$('id_'+x).innerHTML=cell_content[x];
+	//记录数字索引的位置
+	if(ctr==1){
+		ctr=2;
+		firstIndex=x;
+	}else{
+		if(firstIndex!=x){
+			secondIndex=x;
+			ctr=1;
+			check();
+		}
+	}
+}
+//检查函数
+var finish=0;
+function check(){
+	if(cell_content[firstIndex]==cell_content[secondIndex]){
+		if(user[firstIndex]==0&&user[secondIndex]==0){
+			user[firstIndex]=1;//不能翻用
+			user[secondIndex]=1;//不能翻用
+			ctr=1;
+			finish++;
+		}
+	}else{
+		if(user[firstIndex]==0){
+			$('id_'+firstIndex).innerHTML=' ';
+			firstIndex=secondIndex;
+			secondIndex=0;
+			ctr=2;
+		}
+	}
+	if (finish==cell_nums/2) {
+		alert("游戏结束")
+		clearTimeout(id);
+		setCookie("name_max",prompt("请输入您的姓名：","fans"),10);
+		setCookie("max_scro",$('gametime').value,10);
+		name_max=getCookie('name_max');
+		max_scro=getCookie('max_scro');
+		$("scro").innerHTML=name_max+"最高分："+max_scro;
+		console.log($('gametime').value);
+	}
+}
+//计时器
+var id;
+function timing(){
+	time+=1;
+	$('gametime').value=time+'秒';
+	id=setTimeout('timing()',1000);
+}
+
+
+
+	//函数封装创建cookie'
+	function setCookie(key,name,expires){
+		document.cookie=key+"="+encodeURIComponent(name)+";expires="+setTimes(expires);
+	}
+	function setTimes(expires){
+		var day = new Date();
+		day.setDate(day.getDate()+expires);
+		return day;
+	}
+
+	//读取cookie的封装函数
+	function getCookie(name){
+		var arrStr=document.cookie.split("; ");
+		for(var i=0;i<arrStr.length;i++){
+			var arr=arrStr[i].split('=');
+			if(arr[0]==name){return decodeURIComponent(arr[1]);}
+				else{return '';}
+		}
+	}
+
+
+
+
+</script>
+</body>
+</html>

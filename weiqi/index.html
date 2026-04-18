@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="./weiqi.css">
+  <script src="./weiqi.js"></script>
+</head>
+<style type="text/css">
+  #dom {
+    width: 600px;
+    height: 600px;
+    /*border: solid 1px red;*/
+  }
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+</style>
+
+<body>
+  <table>
+    <tr>
+      <td id="meau" style="display: flex;">
+        <table>
+          <tr>
+            <td>
+              <div id="tip">黑先落子...</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button onclick="changeSize('+')">棋盘+</button>
+              <br />
+              <button onclick="changeSize('-')">棋盘-</button>
+              <hr />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              路数
+              <br />
+              <select id="select" onchange="changeRoad()">
+                <option value="19">19路</option>
+                <option value="13">13路</option>
+                <option value="9">9路</option>
+              </select>
+              <hr />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              显示手数
+              <br />
+              <select id="stepCount" onchange="changeShowStepCount()">
+                <option value="Y">显示</option>
+                <option value="N">不显示</option>
+              </select>
+              <hr />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input name="sex" type="radio" onclick="fn('H')" />
+              拿黑
+              <br />
+              <input name="sex" type="radio" onclick="fn('B')" />
+              拿白
+              <br />
+              <input name="sex" type="radio" checked="checked" onclick="fn('C')" />
+              交替
+              <hr />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button onclick="lastStep()">上一步</button>
+              <br />
+              <button onclick="nextStep()">下一步</button>
+              <hr />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button onclick="clearPage()">清空</button>
+              <br />
+              <button onclick="copyToClip()">保存棋谱</button>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <div id="dom"></div>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/javascript">
+
+    var dom = document.querySelector('#dom');
+    var weiqi = new WeiQi(dom);
+    weiqi.changeRoadNum(19);
+    weiqi.showStepCount(true)
+
+    var type = 'H';
+    var isAuto = true;
+    function fn(e) {
+      if (e == 'C') {
+        isAuto = true;
+      } else {
+        type = e;
+        isAuto = false;
+        if (type == 'B') {
+          tip.innerHTML = '等待白落子...';
+        } else {
+          tip.innerHTML = '等待黑落子...'
+        }
+      }
+    }
+
+    function changeRoad(e) {
+      // weiqi = new WeiQi(dom, select.value);
+      weiqi.changeRoadNum(select.value)
+    }
+
+    function changeShowStepCount() {
+      weiqi.showStepCount(stepCount.value == 'Y')
+    }
+
+    function changeSize(e) {
+      if (e == '+') {
+        dom.style.width = dom.offsetWidth / 1 + 10 + 'px';
+        dom.style.height = dom.offsetHeight / 1 + 10 + 'px';
+        weiqi.initSize();
+      } else {
+        dom.style.width = dom.offsetWidth / 1 - 10 + 'px';
+        dom.style.height = dom.offsetHeight / 1 - 10 + 'px';
+        weiqi.initSize();
+      }
+    }
+
+    var steps = initSteps();
+
+    var stepNum = steps.length;
+
+    steps.forEach(step => {
+      weiqi.readStep(step.x, step.y, step.type);
+    })
+
+    // 载入棋谱
+    function initSteps() {
+      var stepjson = decodeURIComponent(getQueryVariable('step'));
+      var stepArr = []
+      if (stepjson) {
+        try {
+          stepArr = JSON.parse(stepjson)
+          meau.style.display = "none"
+        } catch (error) {
+          console.log(error)
+          alert('载入棋谱失败')
+        }
+      }
+      return stepArr;
+    }
+
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) { return pair[1]; }
+      }
+      return '';
+    }
+
+    function nextStep() {
+      if (steps.length > stepNum) {
+        stepNum++;
+        var step = steps[stepNum - 1];
+        weiqi.readStep(step.x, step.y, step.type);
+      }
+    }
+
+    function lastStep() {
+      if (stepNum > 0) {
+        stepNum--;
+        weiqi.backStep();
+        //  行棋还原
+        if (type == 'H') {
+          type = 'B';
+          tip.innerHTML = '等待白落子...';
+        } else {
+          type = 'H';
+          tip.innerHTML = '等待黑落子...'
+        }
+      }
+    }
+
+    weiqi.setMusic({
+      go: "video/go.wav",
+      eat: "video/eat.wav"
+    });
+
+
+
+    weiqi.onPut(function (chessman) {
+      chessman.type = type;
+      if (isAuto) {
+        if (type == 'H') {
+          type = 'B';
+          tip.innerHTML = '等待白落子...';
+        } else {
+          type = 'H';
+          tip.innerHTML = '等待黑落子...'
+        }
+      }
+      stepNum++;
+      // 记录棋谱
+      steps.push(chessman);
+    });
+
+    weiqi.onError(function (e) {
+      console.log(e);
+      stepNum--;
+      steps.pop();
+    });
+
+
+    /**
+     * 复制单行内容到粘贴板
+     * content : 需要复制的内容
+     * message : 复制完后的提示，不传则默认提示"复制成功"
+     */
+    function copyToClip() {
+      var content = `${location.pathname}?step=${encodeURIComponent(JSON.stringify(steps))}`;
+      var aux = document.createElement("input");
+      aux.setAttribute("value", content);
+      document.body.appendChild(aux);
+      aux.select();
+      document.execCommand("copy");
+      document.body.removeChild(aux);
+      alert("棋谱复制成功");
+    }
+
+    // 删除url中某个参数,并跳转
+    function delParam(paramKey) {
+      var url = window.location.href;    //页面url
+      var urlParam = window.location.search.substr(1);   //页面参数
+      var beforeUrl = url.substr(0, url.indexOf("?"));   //页面主地址（参数之前地址）
+      var nextUrl = "";
+
+      var arr = new Array();
+      if (urlParam != "") {
+        var urlParamArr = urlParam.split("&"); //将参数按照&符分成数组
+        for (var i = 0; i < urlParamArr.length; i++) {
+          var paramArr = urlParamArr[i].split("="); //将参数键，值拆开
+          //如果键雨要删除的不一致，则加入到参数中
+          if (paramArr[0] != paramKey) {
+            arr.push(urlParamArr[i]);
+          }
+        }
+      }
+      if (arr.length > 0) {
+        nextUrl = "?" + arr.join("&");
+      }
+      url = beforeUrl + nextUrl;
+      return url;
+    }
+
+
+
+    function clearPage() {
+      location.href = delParam('step')
+    }
+  </script>
+</body>
+
+</html>

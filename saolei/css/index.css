@@ -1,0 +1,62 @@
+
+
+*{
+	margin: 0;
+	padding: 0;
+}
+table,th, td{
+	border: 1px solid black;
+}
+table{
+	width: 528px;
+	height: 528px;
+}
+#contain{
+	border:solid 20px #768F94;
+	display: block;
+	width:  528px;
+	margin: 5px auto;
+}
+img{
+	display: none;
+	width: 90%;
+}
+
+td{
+	width: 33px;
+	height: 33px;
+	border:solid 1px #000;
+	box-sizing: border-box;
+	text-align: center;
+	cursor: pointer;
+	background-color: #989898;
+	box-shadow: 1px 1px 1px inset #fff;
+	color: #0000FD;
+	font-size: 20px!important;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px navy;
+	/*background: url(../img/雷.png);*/
+}
+table{
+	border-collapse:collapse;
+}
+.time{
+	margin-top:5px;
+	text-align: center;
+}
+#begin{
+	display: inline-block;
+	background: #3BB7FF;
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+#begin:hover{
+	opacity: 0.8;
+	color: #333;
+}
+.tip{
+	text-align: center;
+}

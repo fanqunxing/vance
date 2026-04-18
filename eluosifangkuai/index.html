@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>boarboy俄罗斯方块</title>
+	<link rel="stylesheet" href="css/index.css">
+	
+</head>
+<body>
+	<div id="grass">
+		<div id="start">开始</div>
+	</div>
+
+	<div id="preBlock">
+		<img src="img/07.gif" alt="">
+		<span></span>
+		<div style='font-size: 10px;margin-top: 30px;text-align: center;color: #eee'>野猪公子方块</div>
+	</div>
+	<div id="Menu">
+		<div class="scores">
+			<span>积分:</span><span id="sco">0</span>
+		</div>
+		<div class="restart">重新开始</div>
+		<div class="music">开启背景音乐</div>
+		<div class="deg"><span id="deg">难度</span>
+			<ul>
+				<li onclick="degs('低级')">低级</li>
+				<li onclick="degs('中级')">中级</li>
+				<li onclick="degs('高级')">高级</li>
+			</ul>
+		</div>
+	</div>
+
+
+
+	<!-- 音效 -->
+	<audio id="audio1" src="video/点击.wav"></audio>
+	<audio id="audio2" src="video/背景.wav" loop=""></audio>
+	<audio id="audio3" src="video/失败.wav"></audio>
+	<audio id="audio4" src="video/明亮.wav"></audio>
+	
+	<script src="js/index.js"></script>
+</body>
+</html>
